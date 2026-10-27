@@ -555,6 +555,10 @@ theorem mem_of_mem_union_of_not_mem_left [TransCmp cmp]
     k ∈ t₁ ∪ t₂ → ¬k ∈ t₁ → k ∈ t₂ :=
   TreeMap.mem_of_mem_union_of_not_mem_left
 
+theorem union_assoc_equiv [TransCmp cmp] {t₃ : TreeSet α cmp} :
+    ((t₁ ∪ t₂) ∪ t₃).Equiv (t₁ ∪ (t₂ ∪ t₃)) :=
+  ⟨TreeMap.union_assoc_equiv⟩
+
 theorem Equiv.union_left {t₃ : TreeSet α cmp} [TransCmp cmp] (equiv : t₁.Equiv t₂) :
     (t₁ ∪ t₃).Equiv (t₂ ∪ t₃) :=
   ⟨TreeMap.Equiv.union_left equiv.1⟩

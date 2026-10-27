@@ -2062,6 +2062,12 @@ theorem mem_of_mem_union_of_not_mem_left [EquivBEq α]
   simp_to_raw using Raw₀.contains_of_contains_union_of_contains_eq_false_left
 
 /- Equiv -/
+theorem union_assoc_equiv [EquivBEq α] [LawfulHashable α] {m₃ : Raw α β}
+    (h₁ : m₁.WF) (h₂ : m₂.WF) (h₃ : m₃.WF) :
+    ((m₁ ∪ m₂) ∪ m₃).Equiv (m₁ ∪ (m₂ ∪ m₃)) := by
+  simp only [Union.union]
+  simp_to_raw using Raw₀.union_assoc_equiv
+
 theorem Equiv.union_left {m₃ : Raw α β} [EquivBEq α] [LawfulHashable α] (h₁ : m₁.WF) (h₂ : m₂.WF) (h₃ : m₃.WF)
     (equiv : m₁ ~m m₂) :
     (m₁ ∪ m₃) ~m (m₂ ∪ m₃) := by

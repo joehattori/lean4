@@ -2190,6 +2190,13 @@ private theorem union_mk [EquivBEq α] [LawfulHashable α]
     {m₁ m₂ : DHashMap α β} :
     (ExtDHashMap.union (mk m₁) (mk m₂) : ExtDHashMap α β) = mk (m₁ ∪ m₂) := by congr
 
+theorem union_assoc [EquivBEq α] [LawfulHashable α] {m₃ : ExtDHashMap α β} :
+    (m₁ ∪ m₂) ∪ m₃ = m₁ ∪ (m₂ ∪ m₃) := by
+  induction m₁ using inductionOn with | _ m₁ =>
+  induction m₂ using inductionOn with | _ m₂ =>
+  induction m₃ using inductionOn with | _ m₃ =>
+  exact sound DHashMap.union_assoc_equiv
+
 /- contains -/
 @[simp]
 theorem contains_union [EquivBEq α] [LawfulHashable α]

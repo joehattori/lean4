@@ -2478,6 +2478,13 @@ theorem mem_of_mem_union_of_not_mem_left [TransCmp cmp]
 
 
 /- Equiv -/
+theorem union_assoc_equiv [TransCmp cmp] {t₃ : DTreeMap α β cmp} :
+    ((t₁ ∪ t₂) ∪ t₃).Equiv (t₁ ∪ (t₂ ∪ t₃)) := by
+  letI : Ord α := ⟨cmp⟩
+  simp only [Union.union]
+  constructor
+  exact Impl.union_assoc_equiv t₁.wf t₂.wf t₃.wf
+
 theorem Equiv.union_left {t₃ : DTreeMap α β cmp} [TransCmp cmp]
     (equiv : t₁.Equiv t₂) :
     (t₁ ∪ t₃).Equiv (t₂ ∪ t₃) := by

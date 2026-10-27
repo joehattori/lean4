@@ -2878,6 +2878,18 @@ theorem getEntry?_insertList [BEq α] [EquivBEq α]
     · simp only [↓reduceIte]
       rw [getEntry?_cons_of_true hk, Option.some_or]
 
+theorem insertList_assoc_perm [BEq α] [EquivBEq α]
+    {l₁ l₂ l₃ : List ((a : α) × β a)}
+    (h₁ : DistinctKeys l₁) (h₂ : DistinctKeys l₂) (h₃ : DistinctKeys l₃) :
+    (insertList (insertList l₁ l₂) l₃).Perm (insertList l₁ (insertList l₂ l₃)) := by
+  apply getEntry?_ext h₁.insertList.insertList h₁.insertList
+  intro k
+  rw [getEntry?_insertList h₁.insertList (DistinctKeys.def.mp h₃),
+    getEntry?_insertList h₁ (DistinctKeys.def.mp h₂),
+    getEntry?_insertList h₁ (DistinctKeys.def.mp h₂.insertList),
+    getEntry?_insertList h₂ (DistinctKeys.def.mp h₃)]
+  exact Option.or_assoc.symm
+
 theorem getEntry?_insertList_of_contains_eq_false [BEq α] [PartialEquivBEq α]
     {l toInsert : List ((a : α) × β a)} {k : α}
     (not_contains : containsKey k toInsert = false) :

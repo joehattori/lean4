@@ -1379,6 +1379,11 @@ theorem mem_of_mem_union_of_not_mem_left [EquivBEq α]
   @DHashMap.Raw.mem_of_mem_union_of_not_mem_left _ _ _ _ m₁.inner m₂.inner _ _ h₁.out h₂.out k
 
 /- Equiv -/
+theorem union_assoc_equiv [EquivBEq α] [LawfulHashable α] {m₃ : Raw α β}
+    (h₁ : m₁.WF) (h₂ : m₂.WF) (h₃ : m₃.WF) :
+    ((m₁ ∪ m₂) ∪ m₃).Equiv (m₁ ∪ (m₂ ∪ m₃)) :=
+  ⟨DHashMap.Raw.union_assoc_equiv h₁.out h₂.out h₃.out⟩
+
 theorem Equiv.union_left {m₃ : Raw α β} [EquivBEq α] [LawfulHashable α] (h₁ : m₁.WF) (h₂ : m₂.WF) (h₃ : m₃.WF)
     (equiv : m₁ ~m m₂) :
     (m₁ ∪ m₃) ~m (m₂ ∪ m₃) :=

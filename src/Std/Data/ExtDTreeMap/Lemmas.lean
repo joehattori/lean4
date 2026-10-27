@@ -2425,6 +2425,13 @@ private theorem union_mk [TransCmp cmp]
     {t₁ t₂ : DTreeMap α β cmp} :
     (ExtDTreeMap.union (mk t₁) (mk t₂) : ExtDTreeMap α β cmp) = mk (t₁ ∪ t₂) := by congr
 
+theorem union_assoc [TransCmp cmp] {t₃ : ExtDTreeMap α β cmp} :
+    (t₁ ∪ t₂) ∪ t₃ = t₁ ∪ (t₂ ∪ t₃) := by
+  induction t₁ using inductionOn with | _ t₁ =>
+  induction t₂ using inductionOn with | _ t₂ =>
+  induction t₃ using inductionOn with | _ t₃ =>
+  exact sound DTreeMap.union_assoc_equiv
+
 /- contains -/
 @[simp]
 theorem contains_union [TransCmp cmp]

@@ -771,6 +771,10 @@ variable {m₁ m₂}
 theorem union_eq [EquivBEq α] [LawfulHashable α] : m₁.union m₂ = m₁ ∪ m₂ := by
   simp only [Union.union]
 
+theorem union_assoc [EquivBEq α] [LawfulHashable α] {m₃ : ExtHashSet α} :
+    (m₁ ∪ m₂) ∪ m₃ = m₁ ∪ (m₂ ∪ m₃) :=
+  ext ExtHashMap.union_assoc
+
 /- contains -/
 @[simp]
 theorem contains_union [EquivBEq α] [LawfulHashable α]

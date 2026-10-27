@@ -1946,6 +1946,11 @@ theorem mem_of_mem_union_of_not_mem_left [EquivBEq α]
   exact @Raw₀.contains_of_contains_union_of_contains_eq_false_left _ _ _ _ ⟨m₁.1, _⟩ ⟨m₂.1, _⟩ _ _ m₁.2 m₂.2 k h₁ h₂
 
 /- Equiv -/
+theorem union_assoc_equiv [EquivBEq α] [LawfulHashable α] {m₃ : DHashMap α β} :
+    ((m₁ ∪ m₂) ∪ m₃).Equiv (m₁ ∪ (m₂ ∪ m₃)) :=
+  ⟨@Raw₀.union_assoc_equiv _ _ _ _ ⟨m₁.1, m₁.2.size_buckets_pos⟩
+    ⟨m₂.1, m₂.2.size_buckets_pos⟩ _ _ ⟨m₃.1, m₃.2.size_buckets_pos⟩ m₁.2 m₂.2 m₃.2⟩
+
 theorem Equiv.union_left {m₃ : DHashMap α β} [EquivBEq α] [LawfulHashable α]
     (equiv : m₁ ~m m₂) :
     (m₁ ∪ m₃) ~m (m₂ ∪ m₃) :=

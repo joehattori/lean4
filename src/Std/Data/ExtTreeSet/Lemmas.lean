@@ -466,6 +466,10 @@ variable {t₁ t₂ : ExtTreeSet α cmp}
 theorem union_eq [TransCmp cmp] : t₁.union t₂ = t₁ ∪ t₂ := by
   simp only [Union.union]
 
+theorem union_assoc [TransCmp cmp] {t₃ : ExtTreeSet α cmp} :
+    (t₁ ∪ t₂) ∪ t₃ = t₁ ∪ (t₂ ∪ t₃) :=
+  ext ExtTreeMap.union_assoc
+
 /- contains -/
 @[simp]
 theorem contains_union [TransCmp cmp]

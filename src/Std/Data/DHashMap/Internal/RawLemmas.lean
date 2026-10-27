@@ -2677,6 +2677,23 @@ theorem contains_of_contains_union_of_contains_eq_false_left [EquivBEq α]
   simp_to_model [union, contains] using List.contains_of_contains_insertList_of_contains_eq_false_left
 
 /- Equiv -/
+theorem union_assoc_equiv [EquivBEq α] [LawfulHashable α] {m₃ : Raw₀ α β}
+    (h₁ : m₁.val.WF) (h₂ : m₂.val.WF) (h₃ : m₃.val.WF) :
+    ((m₁.union m₂).union m₃).1.Equiv (m₁.union (m₂.union m₃)).1 := by
+  simp_to_model [Equiv, union]
+  apply List.Perm.trans
+  · apply List.insertList_perm_of_perm_first
+      (toListModel_union (m₁ := m₁) (m₂ := m₂) (by wf_trivial) (by wf_trivial))
+    wf_trivial
+  · apply List.Perm.trans
+    · apply List.insertList_assoc_perm
+      all_goals wf_trivial
+    · apply List.insertList_perm_of_perm_second
+        (toListModel_union (m₁ := m₂) (m₂ := m₃) (by wf_trivial) (by wf_trivial)).symm
+      · wf_trivial
+      · apply List.DistinctKeys.insertList
+        wf_trivial
+
 theorem Equiv.union_left {m₃ : Raw₀ α β} [EquivBEq α] [LawfulHashable α]
     (h₁ : m₁.val.WF) (h₂ : m₂.val.WF) (h₃ : m₃.val.WF) (equiv : m₁.1.Equiv m₂.1) :
     (m₁.union m₃).1.Equiv (m₂.union m₃).1 := by

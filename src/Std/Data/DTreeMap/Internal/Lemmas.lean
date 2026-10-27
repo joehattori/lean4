@@ -3638,6 +3638,33 @@ theorem contains_of_contains_union!_of_contains_eq_false_left [TransOrd α]
   all_goals assumption
 
 /- Equiv -/
+theorem union_assoc_equiv [TransOrd α] {m₃ : Impl α β}
+    (h₁ : m₁.WF) (h₂ : m₂.WF) (h₃ : m₃.WF) :
+    ((m₁.union m₂ h₁.balanced h₂.balanced).union m₃
+      (@WF.union _ _ _ m₁ h₁ m₂ h₂).balanced h₃.balanced).Equiv
+      (m₁.union (m₂.union m₃ h₂.balanced h₃.balanced)
+        h₁.balanced (@WF.union _ _ _ m₂ h₂ m₃ h₃).balanced) := by
+  simp_to_model [Equiv, union]
+  apply List.Perm.trans
+  · apply List.insertList_perm_of_perm_first (toListModel_union_list h₁ h₂)
+    wf_trivial
+  · apply List.Perm.trans
+    · apply List.insertList_assoc_perm
+      all_goals wf_trivial
+    · apply List.insertList_perm_of_perm_second (toListModel_union_list h₂ h₃).symm
+      · wf_trivial
+      · apply List.DistinctKeys.insertList
+        wf_trivial
+
+theorem union!_assoc_equiv [TransOrd α] {m₃ : Impl α β}
+    (h₁ : m₁.WF) (h₂ : m₂.WF) (h₃ : m₃.WF) :
+    ((m₁.union! m₂).union! m₃).Equiv (m₁.union! (m₂.union! m₃)) := by
+  have h := union_assoc_equiv h₁ h₂ h₃
+  rw [union_eq_union! (@WF.union _ _ _ m₁ h₁ m₂ h₂) h₃,
+    union_eq_union! h₁ (@WF.union _ _ _ m₂ h₂ m₃ h₃),
+    union_eq_union! h₁ h₂, union_eq_union! h₂ h₃] at h
+  exact h
+
 theorem union_insert_right_equiv_insert_union [TransOrd α] {p : (a : α) × β a}
     (h₁ : m₁.WF) (h₂ : m₂.WF) :
     Equiv (m₁.union (m₂.insert p.fst p.snd h₂.balanced).impl h₁.balanced h₂.insert.balanced) ((m₁.union m₂ h₁.balanced h₂.balanced).insert p.fst p.snd (@WF.union _ _ _ m₁ h₁ m₂ h₂).balanced).1 := by
